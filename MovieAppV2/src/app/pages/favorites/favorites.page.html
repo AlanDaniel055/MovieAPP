@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mis Favoritos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div *ngIf="favoriteMovies.length === 0" class="empty-state">
+    <ion-icon name="heart-dislike-outline" size="large"></ion-icon>
+    <p>Aún no tienes películas favoritas.</p>
+  </div>
+
+  <ion-grid *ngIf="favoriteMovies.length > 0">
+    <ion-row>
+      <ion-col size="4" *ngFor="let movie of favoriteMovies" style="margin-bottom: 1rem;">
+        <a class="movie-card-container" [routerLink]="['/details', movie.id]">
+          <div class="poster-wrapper">
+            <img [src]="imageBaseUrl + '/w500' + movie.poster_path" [alt]="movie.title"/>
+          </div>
+          <div class="movie-info">
+            <p class="movie-title">{{ movie.title }}</p>
+          </div>
+        </a>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

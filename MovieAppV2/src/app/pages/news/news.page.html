@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Estrenos del Mes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-header collapse="condense">
+    <ion-toolbar color="primary">
+      <ion-title size="large">Estrenos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner color="secondary"></ion-spinner>
+    <p>Cargando estrenos del mes...</p>
+  </div>
+
+  <div *ngIf="!isLoading && monthlyReleases.length === 0" class="ion-padding empty-state">
+    <ion-icon name="film-outline" size="large"></ion-icon>
+    <p>No se encontraron estrenos para este mes.</p>
+  </div>
+
+  <ion-list *ngIf="!isLoading && monthlyReleases.length > 0">
+    <ion-item *ngFor="let movie of monthlyReleases" [routerLink]="['/details', movie.id]" lines="none">
+        <ion-thumbnail slot="start">
+          <img [src]="imageBaseUrl + '/w500' + movie.poster_path" [alt]="movie.title"/>
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ movie.title }}</h2>
+          <p>{{ movie.release_date | date:'longDate' }}</p>
+        </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

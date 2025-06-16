@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ movie?.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="movie">
+    <div class="backdrop" [style.background-image]="'url(' + imageBaseUrl + '/w1280' + movie.backdrop_path + ')'"></div>
+    <div class="details-header">
+        <div class="poster-container">
+          <img [src]="imageBaseUrl + '/w500' + movie.poster_path" class="poster">
+        </div>
+        <div class="title-container">
+           <h1 class="movie-title">{{ movie.title }}</h1>
+           <span class="movie-date">{{ movie.release_date | date:'yyyy' }}</span>
+        </div>
+    </div>
+    
+    <div class="details-content">
+       <div class="rating-section">
+          <div class="rating-progress-details" [style.background]="getRatingGradient(movie.vote_average)">
+            <span class="rating-value-details">{{ (movie.vote_average * 10) | number:'1.0-0' }}<small>%</small></span>
+          </div>
+          <span class="rating-label">Puntuación de usuarios</span>
+       </div>
+
+       <div class="genres-section">
+          <ion-chip *ngFor="let genre of movie.genres" color="secondary" outline="true">
+            <ion-label>{{ genre.name }}</ion-label>
+          </ion-chip>
+       </div>
+
+       <h3>Resumen</h3>
+       <p class="overview">{{ movie.overview }}</p>
+
+       <ion-button *ngIf="trailerKey" expand="block" fill="outline" color="secondary" (click)="openTrailer()">
+         <ion-icon slot="start" name="play-circle-outline"></ion-icon>
+         Ver Tráiler
+       </ion-button>
+       <h3 *ngIf="cast && cast.length > 0">Reparto principal</h3>
+       <div class="cast-scroll" *ngIf="cast && cast.length > 0">
+         <div *ngFor="let actor of cast" class="actor-card">
+           <img [src]="actor.profile_path ? imageBaseUrl + '/w185' + actor.profile_path : 'https://placehold.co/185x278/0d253f/ffffff?text=No+Image'" [alt]="actor.name"/>
+           <p class="actor-name">{{ actor.name }}</p>
+           <p class="actor-character">{{ actor.character }}</p>
+         </div>
+       </div>
+
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="toggleFavorite()" color="secondary">
+      <ion-icon [name]="isFavorite ? 'heart' : 'heart-outline'"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

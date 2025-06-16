@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>MovieApp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="featuredMovie" class="featured-movie" [style.background-image]="'url(' + imageBaseUrl + '/w1280' + featuredMovie.backdrop_path + ')'">
+    <div class="featured-overlay">
+      <h2 class="featured-title">{{ featuredMovie.title }}</h2>
+      <p class="featured-overview">{{ featuredMovie.overview | slice:0:100 }}...</p>
+      <ion-button [routerLink]="['/details', featuredMovie.id]" fill="outline" color="light">Ver Más</ion-button>
+    </div>
+  </div>
+
+  <div class="ion-padding-start ion-padding-end">
+    <h3 class="category-title">Populares</h3>
+  </div>
+
+  <div class="horizontal-scroll">
+    <div *ngFor="let movie of popularMovies" class="movie-card">
+      <a [routerLink]="['/details', movie.id]">
+        <img [src]="imageBaseUrl + '/w500' + movie.poster_path" alt="Poster"/>
+        <p class="movie-card-title">{{ movie.title }}</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="ion-padding-start ion-padding-end">
+    <h3 class="category-title">Mejor Valoradas</h3>
+  </div>
+
+  <div class="horizontal-scroll">
+    <div *ngFor="let movie of topRatedMovies" class="movie-card">
+      <a [routerLink]="['/details', movie.id]">
+        <img [src]="imageBaseUrl + '/w500' + movie.poster_path" alt="Poster"/>
+        <p class="movie-card-title">{{ movie.title }}</p>
+      </a>
+    </div>
+  </div>
+</ion-content>
